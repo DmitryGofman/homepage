@@ -35,10 +35,20 @@
             background-color: #1a1a2e;
             border-bottom: 2px solid #00d9ff;
             padding: 1.5rem 0;
-            position: sticky;
+            position: fixed;
             top: 0;
+            left: 0;
+            right: 0;
             z-index: 100;
             box-shadow: 0 0 20px rgba(0, 217, 255, 0.1);
+            transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        header.hide-header {
+            transform: translateY(-100%);
+            opacity: 0;
         }
 
         header > div {
@@ -133,6 +143,7 @@
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
+            margin-top: 80px;
         }
 
         section {
@@ -678,6 +689,10 @@
 
         /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 768px) {
+            main {
+                margin-top: 70px;
+            }
+
             #hero h2 {
                 font-size: 1.5rem;
             }
@@ -685,6 +700,7 @@
             header > div {
                 flex-direction: column;
                 gap: 1.5rem;
+                padding: 1rem 1.5rem;
             }
 
             nav ul {
@@ -715,6 +731,10 @@
         }
 
         @media (max-width: 480px) {
+            main {
+                margin-top: 65px;
+            }
+
             header h1 {
                 font-size: 1.2rem;
             }
@@ -743,7 +763,7 @@
 <body>
 
     <!-- HEADER AND NAVIGATION -->
-    <header>
+    <header id="header">
         <div>
             <div class="header-left">
                 <img src="logo-dg.png" alt="DG Logo" class="logo">
@@ -999,23 +1019,52 @@
             <div class="footer-item">
                 <span class="footer-icon">🔨</span>
                 <div class="footer-title">Builder</div>
-                <div class="footer-text">From concept to prototype to real-world impact.</div>
+                <div class="footer-text">From concept to prototype, making dreams real.</div>
             </div>
             <div class="footer-item">
-                <span class="footer-icon">📈</span>
-                <div class="footer-title">Growth-Minded</div>
-                <div class="footer-text">Always learning, always evolving.</div>
+                <span class="footer-icon">🧘</span>
+                <div class="footer-title">Practitioner</div>
+                <div class="footer-text">Grounding clarity through daily practice.</div>
             </div>
             <div class="footer-item">
-                <span class="footer-icon">📍</span>
-                <div class="footer-title">Based In</div>
-                <div class="footer-text">Tel Aviv, Israel<br>Available Worldwide</div>
+                <span class="footer-icon">🚀</span>
+                <div class="footer-title">Seeker</div>
+                <div class="footer-text">Always learning, always growing.</div>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2026 Dima Gofman. Designing systems. Building what matters.</p>
+            <p>&copy; 2024 Dmitry Gofman. All rights reserved.</p>
         </div>
     </footer>
+
+    <script>
+        // Auto-hide header on scroll
+        let lastScrollTop = 0;
+        const header = document.getElementById('header');
+        const scrollThreshold = 5; // Pixels to scroll before hiding/showing
+
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Show header when scrolling up
+            if (currentScroll < lastScrollTop - scrollThreshold) {
+                header.classList.remove('hide-header');
+            }
+            // Hide header when scrolling down (but not at the very top)
+            else if (currentScroll > lastScrollTop + scrollThreshold && currentScroll > 50) {
+                header.classList.add('hide-header');
+            }
+            
+            lastScrollTop = currentScroll <= 0 ? 0 : currentScroll; // Handle negative scroll values
+        });
+
+        // Show header when at the top
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset <= 50) {
+                header.classList.remove('hide-header');
+            }
+        });
+    </script>
 
 </body>
 </html>
